@@ -71,3 +71,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### flatten plugin ###
+.flattened-pom.xml
