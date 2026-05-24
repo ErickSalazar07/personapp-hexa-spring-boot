@@ -19,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Adapter
 public class PersonaInputAdapterCli {
-
 	@Autowired
 	@Qualifier("personOutputAdapterMaria")
 	private PersonOutputPort personOutputPortMaria;
@@ -55,5 +54,4 @@ public class PersonaInputAdapterCli {
 	        .map(personaMapperCli::fromDomainToAdapterCli)
 	        .forEach(System.out::println);
 	}
-
 }

@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Adapter("personOutputAdapterMaria")
 @Transactional
 public class PersonOutputAdapterMaria implements PersonOutputPort {
-
 	@Autowired
 	private PersonaRepositoryMaria personaRepositoryMaria;
 
@@ -57,5 +56,4 @@ public class PersonOutputAdapterMaria implements PersonOutputPort {
 			return personaMapperMaria.fromAdapterToDomain(personaRepositoryMaria.findById(identification).get());
 		}
 	}
-
 }

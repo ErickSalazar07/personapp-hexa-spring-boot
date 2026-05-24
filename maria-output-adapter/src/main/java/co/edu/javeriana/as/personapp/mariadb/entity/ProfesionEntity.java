@@ -19,22 +19,27 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="profesion", catalog = "persona_db", schema = "")
-@NamedQueries({ @NamedQuery(name = "ProfesionEntity.findAll", query = "SELECT p FROM ProfesionEntity p"),
-		@NamedQuery(name = "ProfesionEntity.findById", query = "SELECT p FROM ProfesionEntity p WHERE p.id = :id"),
-		@NamedQuery(name = "ProfesionEntity.findByNom", query = "SELECT p FROM ProfesionEntity p WHERE p.nom = :nom") })
+@NamedQueries({ 
+	@NamedQuery(name = "ProfesionEntity.findAll", query = "SELECT p FROM ProfesionEntity p"),
+	@NamedQuery(name = "ProfesionEntity.findById", query = "SELECT p FROM ProfesionEntity p WHERE p.id = :id"),
+	@NamedQuery(name = "ProfesionEntity.findByNom", query = "SELECT p FROM ProfesionEntity p WHERE p.nom = :nom") 
+})
 public class ProfesionEntity implements Serializable {
-
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Basic(optional = false)
 	@Column(nullable = false)
 	private Integer id;
+
 	@Basic(optional = false)
 	@Column(nullable = false, length = 90)
 	private String nom;
+
 	@Lob
 	@Column(length = 65535)
 	private String des;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "profesion")
 	private List<EstudiosEntity> estudios;
 
@@ -95,10 +100,12 @@ public class ProfesionEntity implements Serializable {
 		if (!(object instanceof ProfesionEntity)) {
 			return false;
 		}
+
 		ProfesionEntity other = (ProfesionEntity) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
+		
 		return true;
 	}
 
@@ -106,5 +113,4 @@ public class ProfesionEntity implements Serializable {
 	public String toString() {
 		return "ProfesionEntity [id=" + id + ", nom=" + nom + ", des=" + des + "]";
 	}
-
 }

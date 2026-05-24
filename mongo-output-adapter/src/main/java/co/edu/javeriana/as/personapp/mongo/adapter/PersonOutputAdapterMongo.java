@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Adapter("personOutputAdapterMongo")
 public class PersonOutputAdapterMongo implements PersonOutputPort {
-	
 	@Autowired
     private PersonaRepositoryMongo personaRepositoryMongo;
 	
@@ -60,5 +59,4 @@ public class PersonOutputAdapterMongo implements PersonOutputPort {
 			return personaMapperMongo.fromAdapterToDomain(personaRepositoryMongo.findById(identification).get());
 		}
 	}
-
 }

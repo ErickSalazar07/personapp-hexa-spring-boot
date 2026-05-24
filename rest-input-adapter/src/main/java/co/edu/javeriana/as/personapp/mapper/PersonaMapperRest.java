@@ -7,7 +7,6 @@ import co.edu.javeriana.as.personapp.model.response.PersonaResponse;
 
 @Mapper
 public class PersonaMapperRest {
-	
 	public PersonaResponse fromDomainToAdapterRestMaria(Person person) {
 		return fromDomainToAdapterRest(person, "MariaDB");
 	}
@@ -27,8 +26,6 @@ public class PersonaMapperRest {
 	}
 
 	public Person fromAdapterToDomain(PersonaRequest request) {
-		// TODO Auto-generated method stub
 		return new Person();
 	}
-		
 }

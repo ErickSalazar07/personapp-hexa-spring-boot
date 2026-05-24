@@ -6,7 +6,6 @@ import co.edu.javeriana.as.personapp.terminal.model.PersonaModelCli;
 
 @Mapper
 public class PersonaMapperCli {
-
 	public PersonaModelCli fromDomainToAdapterCli(Person person) {
 		PersonaModelCli personaModelCli = new PersonaModelCli();
 		personaModelCli.setCc(person.getIdentification());

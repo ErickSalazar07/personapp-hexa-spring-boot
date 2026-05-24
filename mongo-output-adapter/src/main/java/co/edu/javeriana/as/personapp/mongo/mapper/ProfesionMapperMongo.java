@@ -14,7 +14,6 @@ import co.edu.javeriana.as.personapp.mongo.document.ProfesionDocument;
 
 @Mapper
 public class ProfesionMapperMongo {
-	
 	@Autowired
 	private EstudiosMapperMongo estudiosMapperMongo;
 

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Response {
-	
 	private String status;
 	private String description;
 	
@@ -42,7 +41,4 @@ public class Response {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
-	
-	
-
 }

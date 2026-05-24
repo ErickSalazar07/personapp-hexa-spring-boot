@@ -16,9 +16,7 @@ import org.springframework.stereotype.Component;
 @Target(TYPE)
 @Component
 public @interface Mapper {
-	
 	// Solo un alias para abstraernos de Spring framework
     @AliasFor(annotation = Component.class)
     String value() default "";
-
 }

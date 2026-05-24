@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PersonaMenu {
-
 	private static final int OPCION_REGRESAR_MODULOS = 0;
 	private static final int PERSISTENCIA_MARIADB = 1;
 	private static final int PERSISTENCIA_MONGODB = 2;
@@ -91,5 +90,4 @@ public class PersonaMenu {
 			return leerOpcion(keyboard);
 		}
 	}
-
 }

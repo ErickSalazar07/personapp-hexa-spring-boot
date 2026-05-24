@@ -11,20 +11,17 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class EstudiosEntityPK implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	@Basic(optional = false)
 	@Column(name = "id_prof", nullable = false)
 	private int idProf;
+
 	@Basic(optional = false)
 	@Column(name = "cc_per", nullable = false)
 	private int ccPer;
 
-	public EstudiosEntityPK() {
-	}
+	public EstudiosEntityPK() {}
 
 	public EstudiosEntityPK(int idProf, int ccPer) {
 		this.idProf = idProf;
@@ -75,5 +72,4 @@ public class EstudiosEntityPK implements Serializable {
 	public String toString() {
 		return "EstudiosEntityPK [idProf=" + idProf + ", ccPer=" + ccPer + "]";
 	}
-
 }

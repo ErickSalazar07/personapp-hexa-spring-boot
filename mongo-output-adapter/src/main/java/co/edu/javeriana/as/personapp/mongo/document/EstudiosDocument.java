@@ -17,10 +17,13 @@ import lombok.NoArgsConstructor;
 public class EstudiosDocument {
 	@Id
 	private String id;
+
 	@DocumentReference(lazy = true)
 	private PersonaDocument primaryPersona;
+
 	@DocumentReference(lazy = true)
 	private ProfesionDocument primaryProfesion;
+	
 	private LocalDate fecha;
 	private String univer;
 }

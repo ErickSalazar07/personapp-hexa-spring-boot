@@ -13,7 +13,6 @@ import co.edu.javeriana.as.personapp.application.usecase.PersonUseCase;
 import co.edu.javeriana.as.personapp.common.annotations.Adapter;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
 import co.edu.javeriana.as.personapp.common.setup.DatabaseOption;
-import co.edu.javeriana.as.personapp.domain.Gender;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.mapper.PersonaMapperRest;
 import co.edu.javeriana.as.personapp.model.request.PersonaRequest;
@@ -23,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Adapter
 public class PersonaInputAdapterRest {
-
 	@Autowired
 	@Qualifier("personOutputAdapterMaria")
 	private PersonOutputPort personOutputPortMaria;
@@ -51,6 +49,7 @@ public class PersonaInputAdapterRest {
 
 	public List<PersonaResponse> historial(String database) {
 		log.info("Into historial PersonaEntity in Input Adapter");
+
 		try {
 			if(setPersonOutputPortInjection(database).equalsIgnoreCase(DatabaseOption.MARIA.toString())){
 				return personInputPort.findAll().stream().map(personaMapperRest::fromDomainToAdapterRestMaria)
@@ -75,6 +74,7 @@ public class PersonaInputAdapterRest {
 			log.warn(e.getMessage());
 			//return new PersonaResponse("", "", "", "", "", "", "");
 		}
+
 		return null;
 	}
 
