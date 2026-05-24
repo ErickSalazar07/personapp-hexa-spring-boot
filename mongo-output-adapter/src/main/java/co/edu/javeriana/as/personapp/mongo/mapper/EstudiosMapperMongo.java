@@ -53,10 +53,10 @@ public class EstudiosMapperMongo {
 
 	public Study fromAdapterToDomain(EstudiosDocument estudiosDocument) {
 		Study study = new Study();
-		study.setPerson(personaMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryPersona()));
-		study.setProfession(profesionMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryProfesion()));
-		study.setGraduationDate(validateGraduationDate(estudiosDocument.getFecha()));
-		study.setUniversityName(validateUniversityName(estudiosDocument.getUniver()));
+		study.updatePerson(personaMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryPersona()));
+		study.updateProfession(profesionMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryProfesion()));
+		study.updateGraduationDate(validateGraduationDate(estudiosDocument.getFecha()));
+		study.updateUniversityName(validateUniversityName(estudiosDocument.getUniver()));
 		return null;
 	}
 

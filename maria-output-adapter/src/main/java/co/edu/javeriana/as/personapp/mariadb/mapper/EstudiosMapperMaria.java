@@ -42,10 +42,10 @@ public class EstudiosMapperMaria {
 
 	public Study fromAdapterToDomain(EstudiosEntity estudiosEntity) {
 		Study study = new Study();
-		study.setPerson(personaMapperMaria.fromAdapterToDomain(estudiosEntity.getPersona()));
-		study.setProfession(profesionMapperMaria.fromAdapterToDomain(estudiosEntity.getProfesion()));
-		study.setGraduationDate(validateGraduationDate(estudiosEntity.getFecha()));
-		study.setUniversityName(validateUniversityName(estudiosEntity.getUniver()));
+		study.updatePerson(personaMapperMaria.fromAdapterToDomain(estudiosEntity.getPersona()));
+		study.updateProfession(profesionMapperMaria.fromAdapterToDomain(estudiosEntity.getProfesion()));
+		study.updateGraduationDate(validateGraduationDate(estudiosEntity.getFecha()));
+		study.updateUniversityName(validateUniversityName(estudiosEntity.getUniver()));
 		return null;
 	}
 

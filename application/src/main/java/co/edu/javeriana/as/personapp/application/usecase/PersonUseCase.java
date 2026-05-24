@@ -11,15 +11,17 @@ import co.edu.javeriana.as.personapp.domain.Phone;
 import co.edu.javeriana.as.personapp.domain.Study;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+
 @Slf4j
 @UseCase
 public class PersonUseCase implements PersonInputPort {
 	private PersonOutputPort personPersintence;
-	
-	public PersonUseCase(PersonOutputPort personPersintence) {
+
+	public PersonUseCase(@Qualifier("personOutputAdapterMaria") PersonOutputPort personPersintence) {
 		this.personPersintence=personPersintence;
 	}
-	
+
 	@Override
 	public void setPersintence(PersonOutputPort personPersintence) {
 		this.personPersintence=personPersintence;

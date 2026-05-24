@@ -28,9 +28,9 @@ public class TelefonoMapperMaria {
 
 	public Phone fromAdapterToDomain(TelefonoEntity telefonoEntity) {
 		Phone phone = new Phone();
-		phone.setNumber(telefonoEntity.getNum());
-		phone.setCompany(telefonoEntity.getOper());
-		phone.setOwner(validateOwner(telefonoEntity.getDuenio()));
+		phone.updateNumber(telefonoEntity.getNum());
+		phone.updateCompany(telefonoEntity.getOper());
+		phone.updateOwner(validateOwner(telefonoEntity.getDuenio()));
 		return phone;
 	}
 

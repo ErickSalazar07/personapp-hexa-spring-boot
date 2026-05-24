@@ -14,6 +14,7 @@ db.persona.insertMany([
 		"nombre": "Pepito",
 		"apellido": "Perez",
 		"genero": "M",
+		"edad": NumberInt(25),
 		"_class": "co.edu.javeriana.as.personapp.mongo.document.PersonaDocument"
 	},
 	{

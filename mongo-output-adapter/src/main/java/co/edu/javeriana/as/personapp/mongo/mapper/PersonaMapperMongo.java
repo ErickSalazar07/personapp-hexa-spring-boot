@@ -58,13 +58,13 @@ public class PersonaMapperMongo {
 
 	public Person fromAdapterToDomain(PersonaDocument personaDocument) {
 		Person person = new Person();
-		person.setIdentification(personaDocument.getId());
-		person.setFirstName(personaDocument.getNombre());
-		person.setLastName(personaDocument.getApellido());
-		person.setGender(validateGender(personaDocument.getGenero()));
-		person.setAge(validateAge(personaDocument.getEdad()));
-		person.setStudies(validateStudies(personaDocument.getEstudios()));
-		person.setPhoneNumbers(validatePhones(personaDocument.getTelefonos()));
+		person.updateIdentification(personaDocument.getId());
+		person.updateFirstName(personaDocument.getNombre());
+		person.updateLastName(personaDocument.getApellido());
+		person.updateGender(validateGender(personaDocument.getGenero()));
+		person.updateAge(validateAge(personaDocument.getEdad()));
+		person.updateStudies(validateStudies(personaDocument.getEstudios()));
+		person.updatePhoneNumbers(validatePhones(personaDocument.getTelefonos()));
 		return person;
 	}
 

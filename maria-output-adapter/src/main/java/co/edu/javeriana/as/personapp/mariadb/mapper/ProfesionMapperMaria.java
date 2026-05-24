@@ -38,10 +38,10 @@ public class ProfesionMapperMaria {
 
 	public Profession fromAdapterToDomain(ProfesionEntity profesionEntity) {
 		Profession profession = new Profession();
-		profession.setIdentification(profesionEntity.getId());
-		profession.setName(profesionEntity.getNom());
-		profession.setDescription(validateDescription(profesionEntity.getDes()));
-		profession.setStudies(validateStudies(profesionEntity.getEstudios()));
+		profession.updateIdentification(profesionEntity.getId());
+		profession.updateName(profesionEntity.getNom());
+		profession.updateDescription(validateDescription(profesionEntity.getDes()));
+		profession.updateStudies(validateStudies(profesionEntity.getEstudios()));
 		return profession;
 	}
 
