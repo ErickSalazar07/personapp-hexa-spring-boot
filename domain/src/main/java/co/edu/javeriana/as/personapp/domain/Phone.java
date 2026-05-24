@@ -11,8 +11,10 @@ import lombok.NonNull;
 public class Phone {
 	@NonNull
 	private String number;
+	
 	@NonNull
 	private String company;
+	
 	@NonNull
 	private Person owner;
 }

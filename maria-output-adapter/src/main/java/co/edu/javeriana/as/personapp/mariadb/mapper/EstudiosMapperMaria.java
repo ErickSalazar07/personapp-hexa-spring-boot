@@ -13,7 +13,6 @@ import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntityPK;
 
 @Mapper
 public class EstudiosMapperMaria {
-
 	@Autowired
 	private PersonaMapperMaria personaMapperMaria;
 

@@ -11,7 +11,6 @@ import lombok.NonNull;
 
 @Mapper
 public class TelefonoMapperMaria {
-
 	@Autowired
 	private PersonaMapperMaria personaMapperMaria;
 

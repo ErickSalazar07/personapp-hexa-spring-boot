@@ -16,9 +16,11 @@ import lombok.ToString;
 public class Profession {
 	@NonNull
 	private Integer identification;
+
 	@NonNull
 	private String name;
 	private String description;
+	
 	@ToString.Exclude
 	private List<Study> studies;
 }

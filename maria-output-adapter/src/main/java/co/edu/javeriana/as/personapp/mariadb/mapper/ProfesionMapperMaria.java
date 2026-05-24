@@ -14,7 +14,6 @@ import co.edu.javeriana.as.personapp.mariadb.entity.ProfesionEntity;
 
 @Mapper
 public class ProfesionMapperMaria {
-
 	@Autowired
 	private EstudiosMapperMaria estudiosMapperMaria;
 
