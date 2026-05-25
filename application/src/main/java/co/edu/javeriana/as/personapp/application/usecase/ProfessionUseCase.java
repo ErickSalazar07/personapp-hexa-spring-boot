@@ -2,6 +2,8 @@ package co.edu.javeriana.as.personapp.application.usecase;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import co.edu.javeriana.as.personapp.application.port.in.ProfessionInputPort;
 import co.edu.javeriana.as.personapp.application.port.out.ProfessionOutputPort;
 import co.edu.javeriana.as.personapp.common.annotations.UseCase;
@@ -14,6 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfessionUseCase implements ProfessionInputPort {
 
   private ProfessionOutputPort professionPersintence;
+
+  public ProfessionUseCase(@Qualifier("professionOutputAdapter") ProfessionOutputPort professionPersintence) {
+    this.professionPersintence = professionPersintence;
+  }
 
   @Override
   public void setPersintence(ProfessionOutputPort professionPersintence) {
