@@ -40,10 +40,4 @@ public class TelefonoControllerV1 {
 		return telefonoInputAdapterRest.editarTelefono(numero, request);
 	}
 
-	@ResponseBody
-	@DeleteMapping(path = "/{database}/{numero}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public TelefonoResponse eliminarTelefono(@PathVariable String database, @PathVariable String numero) {
-		log.info("Into eliminarTelefono REST API");
-		return telefonoInputAdapterRest.eliminarTelefono(numero, database.toUpperCase());
-	}
 }

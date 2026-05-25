@@ -9,7 +9,6 @@ import co.edu.javeriana.as.personapp.application.port.in.StudyInputPort;
 import co.edu.javeriana.as.personapp.application.port.out.StudyOutputPort;
 import co.edu.javeriana.as.personapp.common.annotations.Adapter;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
-import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.common.setup.DatabaseOption;
 import co.edu.javeriana.as.personapp.domain.Study;
 import co.edu.javeriana.as.personapp.mapper.EstudioMapperRest;
@@ -66,18 +65,6 @@ public class EstudioInputAdapterRest {
         }
     }
 
-    public EstudioResponse obtenerEstudio(Integer ccPersona, Integer idProfesion, String database) {
-        log.info("Into obtenerEstudio in REST Adapter");
-        try {
-            setStudyOutputPortInjection(database);
-            Study study = studyInputPort.findOne(ccPersona, idProfesion);
-            return estudioMapperRest.fromDomainToAdapterRest(study, database);
-        } catch (InvalidOptionException | NoExistException e) {
-            log.warn(e.getMessage());
-            return null;
-        }
-    }
-
     public EstudioResponse crearEstudio(EstudioRequest request) {
         log.info("Into crearEstudio in REST Adapter");
         try {
@@ -90,26 +77,4 @@ public class EstudioInputAdapterRest {
         }
     }
 
-    public EstudioResponse editarEstudio(Integer ccPersona, Integer idProfesion, EstudioRequest request) {
-        log.info("Into editarEstudio in REST Adapter");
-        try {
-            setStudyOutputPortInjection(request.getDatabase());
-            Study study = studyInputPort.edit(ccPersona, idProfesion, estudioMapperRest.fromAdapterToDomain(request));
-            return estudioMapperRest.fromDomainToAdapterRest(study, request.getDatabase());
-        } catch (InvalidOptionException | NoExistException e) {
-            log.warn(e.getMessage());
-            return null;
-        }
-    }
-
-    public Boolean eliminarEstudio(Integer ccPersona, Integer idProfesion, String database) {
-        log.info("Into eliminarEstudio in REST Adapter");
-        try {
-            setStudyOutputPortInjection(database);
-            return studyInputPort.drop(ccPersona, idProfesion);
-        } catch (InvalidOptionException | NoExistException e) {
-            log.warn(e.getMessage());
-            return false;
-        }
-    }
 }

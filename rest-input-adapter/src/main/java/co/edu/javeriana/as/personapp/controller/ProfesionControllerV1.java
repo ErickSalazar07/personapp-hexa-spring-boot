@@ -42,7 +42,7 @@ public class ProfesionControllerV1 {
 
 	@ResponseBody
 	@DeleteMapping(path = "/{database}/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ProfesionResponse eliminarProfesion(@PathVariable String database, @PathVariable Integer id) {
+	public Boolean eliminarProfesion(@PathVariable String database, @PathVariable Integer id) {
 		log.info("Into eliminarProfesion REST API");
 		return profesionInputAdapterRest.eliminarProfesion(id, database.toUpperCase());
 	}
