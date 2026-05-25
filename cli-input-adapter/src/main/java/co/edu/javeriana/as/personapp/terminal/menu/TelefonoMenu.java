@@ -4,23 +4,22 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
-import co.edu.javeriana.as.personapp.terminal.adapter.PersonaInputAdapterCli;
+import co.edu.javeriana.as.personapp.terminal.adapter.TelefonoInputAdapterCli;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PersonaMenu {
+public class TelefonoMenu {
 	private static final int OPCION_REGRESAR_MODULOS = 0;
 	private static final int PERSISTENCIA_MARIADB = 1;
 	private static final int PERSISTENCIA_MONGODB = 2;
 
 	private static final int OPCION_REGRESAR_MOTOR_PERSISTENCIA = 0;
 	private static final int OPCION_VER_TODO = 1;
-  private static final int OPCION_CREAR_PERSONA = 2;
-  private static final int OPCION_ACTUALIZAR_PERSONA = 3;
-  private static final int OPCION_ELIMINAR_PERSONA = 4;
-	// mas opciones
-
-	public void iniciarMenu(PersonaInputAdapterCli personaInputAdapterCli, Scanner keyboard) {
+  private static final int OPCION_CREAR_TELEFONO = 2;
+  private static final int OPCION_ACTUALIZAR_TELEFONO = 3;
+  private static final int OPCION_ELIMINAR_TELEFONO = 4;
+  
+	public void iniciarMenu(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
 		boolean isValid = false;
 		do {
 			try {
@@ -34,13 +33,13 @@ public class PersonaMenu {
 				break;
 
 				case PERSISTENCIA_MARIADB:
-					personaInputAdapterCli.setPersonOutputPortInjection("MARIA");
-					menuOpciones(personaInputAdapterCli,keyboard);
+					telefonoInputAdapterCli.setPhoneOutputPortInjection("MARIA");
+					menuOpciones(telefonoInputAdapterCli,keyboard);
 				break;
 
 				case PERSISTENCIA_MONGODB:
-					personaInputAdapterCli.setPersonOutputPortInjection("MONGO");
-					menuOpciones(personaInputAdapterCli,keyboard);
+					telefonoInputAdapterCli.setPhoneOutputPortInjection("MONGO");
+					menuOpciones(telefonoInputAdapterCli,keyboard);
 				break;
 
 				default:
@@ -52,7 +51,7 @@ public class PersonaMenu {
 		} while (!isValid);
 	}
 
-	private void menuOpciones(PersonaInputAdapterCli personaInputAdapterCli, Scanner keyboard) {
+	private void menuOpciones(TelefonoInputAdapterCli telefonoInputAdapterCli, Scanner keyboard) {
 		boolean isValid = false;
 		do {
 			try {
@@ -65,21 +64,21 @@ public class PersonaMenu {
 				break;
 
 				case OPCION_VER_TODO:
-					personaInputAdapterCli.historial();					
+					telefonoInputAdapterCli.historial();					
 				break;
 
-        case OPCION_CREAR_PERSONA:
-          personaInputAdapterCli.crearPersona(keyboard);
+        case OPCION_CREAR_TELEFONO:
+          telefonoInputAdapterCli.crearTelefono(keyboard);
         break;
 
-        case OPCION_ACTUALIZAR_PERSONA:
-          personaInputAdapterCli.historial();
-          personaInputAdapterCli.updatePersona(keyboard);
+        case OPCION_ACTUALIZAR_TELEFONO:
+          telefonoInputAdapterCli.historial();
+          telefonoInputAdapterCli.updateTelefono(keyboard);
         break;
 
-        case OPCION_ELIMINAR_PERSONA:
-          personaInputAdapterCli.historial();
-          personaInputAdapterCli.deletePersona(keyboard);
+        case OPCION_ELIMINAR_TELEFONO:
+          telefonoInputAdapterCli.historial();
+          telefonoInputAdapterCli.deleteTelefono(keyboard);
         break;
 
 				// mas opciones
@@ -94,10 +93,10 @@ public class PersonaMenu {
 
 	private void mostrarMenuOpciones() {
 		System.out.println("----------------------");
-		System.out.println(OPCION_VER_TODO + " para ver todas las personas");
-		System.out.println(OPCION_CREAR_PERSONA + " para crear una persona");
-		System.out.println(OPCION_ACTUALIZAR_PERSONA + " para actualizar una persona");
-		System.out.println(OPCION_ELIMINAR_PERSONA + " para eliminar una persona");
+		System.out.println(OPCION_VER_TODO + " para ver todas las profesiones");
+		System.out.println(OPCION_CREAR_TELEFONO + " para crear una profesiones");
+		System.out.println(OPCION_ACTUALIZAR_TELEFONO + " para actualizar una profesiones");
+		System.out.println(OPCION_ELIMINAR_TELEFONO + " para eliminar una profesiones");
 		// implementar otras opciones
 		System.out.println(OPCION_REGRESAR_MOTOR_PERSISTENCIA + " para regresar");
 	}
