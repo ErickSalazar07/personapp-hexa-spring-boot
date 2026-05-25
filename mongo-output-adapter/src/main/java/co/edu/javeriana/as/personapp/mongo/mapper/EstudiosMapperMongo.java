@@ -22,13 +22,13 @@ public class EstudiosMapperMongo {
 	private ProfesionMapperMongo profesionMapperMongo;
 
 	public EstudiosDocument fromDomainToAdapter(Study study) {
-		EstudiosDocument estudio = new EstudiosDocument();
-		estudio.setId(validateId(study.getPerson().getIdentification(), study.getProfession().getIdentification()));
-		estudio.setPrimaryPersona(validatePrimaryPersona(study.getPerson()));
-		estudio.setPrimaryProfesion(validatePrimaryProfesion(study.getProfession()));
-		estudio.setFecha(validateFecha(study.getGraduationDate()));
-		estudio.setUniver(validateUniver(study.getUniversityName()));
-		return estudio;
+		EstudiosDocument studyDocument = new EstudiosDocument();
+		studyDocument.setId(validateId(study.getPerson().getIdentification(), study.getProfession().getIdentification()));
+		studyDocument.setPrimaryPersona(validatePrimaryPersona(study.getPerson()));
+		studyDocument.setPrimaryProfesion(validatePrimaryProfesion(study.getProfession()));
+		studyDocument.setFecha(validateFecha(study.getGraduationDate()));
+		studyDocument.setUniver(validateUniver(study.getUniversityName()));
+		return studyDocument;
 	}
 
 	private String validateId(@NonNull Integer identificationPerson, @NonNull Integer identificationProfession) {
@@ -57,7 +57,7 @@ public class EstudiosMapperMongo {
 		study.updateProfession(profesionMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryProfesion()));
 		study.updateGraduationDate(validateGraduationDate(estudiosDocument.getFecha()));
 		study.updateUniversityName(validateUniversityName(estudiosDocument.getUniver()));
-		return null;
+		return study;
 	}
 
 	private LocalDate validateGraduationDate(LocalDate fecha) {

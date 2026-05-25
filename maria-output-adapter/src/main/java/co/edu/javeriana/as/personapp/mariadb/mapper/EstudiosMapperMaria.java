@@ -20,14 +20,14 @@ public class EstudiosMapperMaria {
 	private ProfesionMapperMaria profesionMapperMaria;
 
 	public EstudiosEntity fromDomainToAdapter(Study study) {
-		EstudiosEntityPK estudioPK = new EstudiosEntityPK();
-		estudioPK.setCcPer(study.getPerson().getIdentification());
-		estudioPK.setIdProf(study.getProfession().getIdentification());
-		EstudiosEntity estudio = new EstudiosEntity();
-		estudio.setEstudiosPK(estudioPK);
-		estudio.setFecha(validateFecha(study.getGraduationDate()));
-		estudio.setUniver(validateUniver(study.getUniversityName()));
-		return estudio;
+		EstudiosEntityPK studyPK = new EstudiosEntityPK();
+		studyPK.setCcPer(study.getPerson().getIdentification());
+		studyPK.setIdProf(study.getProfession().getIdentification());
+		EstudiosEntity studyEntity = new EstudiosEntity();
+		studyEntity.setEstudiosPK(studyPK);
+		studyEntity.setFecha(validateFecha(study.getGraduationDate()));
+		studyEntity.setUniver(validateUniver(study.getUniversityName()));
+		return studyEntity;
 	}
 
 	private Date validateFecha(LocalDate graduationDate) {
@@ -46,7 +46,7 @@ public class EstudiosMapperMaria {
 		study.updateProfession(profesionMapperMaria.fromAdapterToDomain(estudiosEntity.getProfesion()));
 		study.updateGraduationDate(validateGraduationDate(estudiosEntity.getFecha()));
 		study.updateUniversityName(validateUniversityName(estudiosEntity.getUniver()));
-		return null;
+		return study;
 	}
 
 	private LocalDate validateGraduationDate(Date fecha) {
