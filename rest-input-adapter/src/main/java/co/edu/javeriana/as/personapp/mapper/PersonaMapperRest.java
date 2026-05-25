@@ -1,6 +1,7 @@
 package co.edu.javeriana.as.personapp.mapper;
 
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
+import co.edu.javeriana.as.personapp.domain.Gender;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.model.request.PersonaRequest;
 import co.edu.javeriana.as.personapp.model.response.PersonaResponse;
@@ -25,7 +26,24 @@ public class PersonaMapperRest {
 				"OK");
 	}
 
+	//arreglao
 	public Person fromAdapterToDomain(PersonaRequest request) {
-		return new Person();
+		Gender gender = (request.getSex() != null && request.getSex().equalsIgnoreCase("MALE"))
+				? Gender.MALE : Gender.FEMALE;
+		Integer age = null;
+		try {
+			age = Integer.parseInt(request.getAge());
+		} catch (NumberFormatException e) {
+			age = 0;
+		}
+		return new Person(
+				Integer.parseInt(request.getDni()),
+				request.getFirstName(),
+				request.getLastName(),
+				gender,
+				age,
+				null,
+				null);
 	}
+
 }
