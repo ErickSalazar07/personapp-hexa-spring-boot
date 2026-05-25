@@ -26,6 +26,7 @@ public class PersonaMapperMongo {
 
 	public PersonaDocument fromDomainToAdapter(Person person) {
 		PersonaDocument personaDocument = new PersonaDocument();
+
 		personaDocument.setId(person.getIdentification());
 		personaDocument.setNombre(person.getFirstName());
 		personaDocument.setApellido(person.getLastName());
@@ -33,6 +34,7 @@ public class PersonaMapperMongo {
 		personaDocument.setEdad(validateEdad(person.getAge()));
 		personaDocument.setEstudios(validateEstudios(person.getStudies()));
 		personaDocument.setTelefonos(validateTelefonos(person.getPhoneNumbers()));
+
 		return personaDocument;
 	}
 
@@ -58,6 +60,7 @@ public class PersonaMapperMongo {
 
 	public Person fromAdapterToDomain(PersonaDocument personaDocument) {
 		Person person = new Person();
+
 		person.updateIdentification(personaDocument.getId());
 		person.updateFirstName(personaDocument.getNombre());
 		person.updateLastName(personaDocument.getApellido());
@@ -65,6 +68,7 @@ public class PersonaMapperMongo {
 		person.updateAge(validateAge(personaDocument.getEdad()));
 		person.updateStudies(validateStudies(personaDocument.getEstudios()));
 		person.updatePhoneNumbers(validatePhones(personaDocument.getTelefonos()));
+
 		return person;
 	}
 

@@ -4,29 +4,28 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
+import co.edu.javeriana.as.personapp.domain.Person;
+import co.edu.javeriana.as.personapp.domain.Profession;
 import co.edu.javeriana.as.personapp.domain.Study;
 import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntity;
 import co.edu.javeriana.as.personapp.mariadb.entity.EstudiosEntityPK;
 
 @Mapper
 public class EstudiosMapperMaria {
-	@Autowired
-	private PersonaMapperMaria personaMapperMaria;
-
-	@Autowired
-	private ProfesionMapperMaria profesionMapperMaria;
 
 	public EstudiosEntity fromDomainToAdapter(Study study) {
 		EstudiosEntityPK studyPK = new EstudiosEntityPK();
+
 		studyPK.setCcPer(study.getPerson().getIdentification());
 		studyPK.setIdProf(study.getProfession().getIdentification());
+
 		EstudiosEntity studyEntity = new EstudiosEntity();
+
 		studyEntity.setEstudiosPK(studyPK);
 		studyEntity.setFecha(validateFecha(study.getGraduationDate()));
 		studyEntity.setUniver(validateUniver(study.getUniversityName()));
+
 		return studyEntity;
 	}
 
@@ -42,10 +41,17 @@ public class EstudiosMapperMaria {
 
 	public Study fromAdapterToDomain(EstudiosEntity estudiosEntity) {
 		Study study = new Study();
-		study.updatePerson(personaMapperMaria.fromAdapterToDomain(estudiosEntity.getPersona()));
-		study.updateProfession(profesionMapperMaria.fromAdapterToDomain(estudiosEntity.getProfesion()));
+    Person person = new Person();
+    Profession profession = new Profession();
+
+    person.updateIdentification(estudiosEntity.getPersona().getCc());
+    profession.updateIdentification(estudiosEntity.getProfesion().getId());
+
+		study.updatePerson(person);
+		study.updateProfession(profession);
 		study.updateGraduationDate(validateGraduationDate(estudiosEntity.getFecha()));
 		study.updateUniversityName(validateUniversityName(estudiosEntity.getUniver()));
+
 		return study;
 	}
 

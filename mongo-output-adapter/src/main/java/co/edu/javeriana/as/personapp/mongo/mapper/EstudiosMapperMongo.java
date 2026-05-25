@@ -2,8 +2,6 @@ package co.edu.javeriana.as.personapp.mongo.mapper;
 
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import co.edu.javeriana.as.personapp.common.annotations.Mapper;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.domain.Profession;
@@ -15,19 +13,16 @@ import lombok.NonNull;
 
 @Mapper
 public class EstudiosMapperMongo {
-	@Autowired
-	private PersonaMapperMongo personaMapperMongo;
-
-	@Autowired
-	private ProfesionMapperMongo profesionMapperMongo;
 
 	public EstudiosDocument fromDomainToAdapter(Study study) {
 		EstudiosDocument studyDocument = new EstudiosDocument();
+
 		studyDocument.setId(validateId(study.getPerson().getIdentification(), study.getProfession().getIdentification()));
 		studyDocument.setPrimaryPersona(validatePrimaryPersona(study.getPerson()));
 		studyDocument.setPrimaryProfesion(validatePrimaryProfesion(study.getProfession()));
 		studyDocument.setFecha(validateFecha(study.getGraduationDate()));
 		studyDocument.setUniver(validateUniver(study.getUniversityName()));
+
 		return studyDocument;
 	}
 
@@ -35,13 +30,23 @@ public class EstudiosMapperMongo {
 		return identificationPerson + "-" + identificationProfession;
 	}
 
-	private PersonaDocument validatePrimaryPersona(@NonNull Person person) {
-		return person != null ? personaMapperMongo.fromDomainToAdapter(person) : new PersonaDocument();
-	}
+  private PersonaDocument validatePrimaryPersona(@NonNull Person person) {
+    PersonaDocument persona = new PersonaDocument();
 
-	private ProfesionDocument validatePrimaryProfesion(@NonNull Profession profession) {
-		return profession != null ? profesionMapperMongo.fromDomainToAdapter(profession) : new ProfesionDocument();
-	}
+    persona.setId(person.getIdentification());
+    persona.setNombre(person.getFirstName());
+
+    return persona;
+  }
+
+  private ProfesionDocument validatePrimaryProfesion(@NonNull Profession profession) {
+    ProfesionDocument profesion = new ProfesionDocument();
+
+    profesion.setId(profession.getIdentification());
+    profesion.setNom(profession.getName());
+
+    return profesion;
+  }
 
 	private LocalDate validateFecha(LocalDate graduationDate) {
 		return graduationDate != null ? graduationDate : null;
@@ -53,10 +58,17 @@ public class EstudiosMapperMongo {
 
 	public Study fromAdapterToDomain(EstudiosDocument estudiosDocument) {
 		Study study = new Study();
-		study.updatePerson(personaMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryPersona()));
-		study.updateProfession(profesionMapperMongo.fromAdapterToDomain(estudiosDocument.getPrimaryProfesion()));
+    Person person = new Person();
+    Profession profession = new Profession();
+
+    person.updateIdentification(estudiosDocument.getPrimaryPersona().getId());
+    profession.updateIdentification(estudiosDocument.getPrimaryProfesion().getId());
+
+		study.updatePerson(person);
+		study.updateProfession(profession);
 		study.updateGraduationDate(validateGraduationDate(estudiosDocument.getFecha()));
 		study.updateUniversityName(validateUniversityName(estudiosDocument.getUniver()));
+
 		return study;
 	}
 
