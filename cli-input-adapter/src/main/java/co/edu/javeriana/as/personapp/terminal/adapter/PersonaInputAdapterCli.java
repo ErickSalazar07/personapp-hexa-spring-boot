@@ -84,7 +84,7 @@ public class PersonaInputAdapterCli {
       persona.updateIdentification(cc);
       persona.updateFirstName(nombre);
       persona.updateLastName(apellido);
-      persona.updateGender(Gender.valueOf(genero));
+      persona.updateGender(genero.contains("M") ? Gender.MALE : Gender.FEMALE);
       persona.updateAge(edad);
       persona.updatePhoneNumbers(new ArrayList<>());
       persona.updateStudies(new ArrayList<>());
