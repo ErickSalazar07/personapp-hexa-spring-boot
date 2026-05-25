@@ -13,6 +13,7 @@ import co.edu.javeriana.as.personapp.application.port.out.PersonOutputPort;
 import co.edu.javeriana.as.personapp.application.usecase.PersonUseCase;
 import co.edu.javeriana.as.personapp.common.annotations.Adapter;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
+import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.common.setup.DatabaseOption;
 import co.edu.javeriana.as.personapp.domain.Gender;
 import co.edu.javeriana.as.personapp.domain.Person;
@@ -98,10 +99,11 @@ public class PersonaInputAdapterCli {
 
   public void updatePersona(Scanner keyboard) {
     log.info("Into updatePersona PersonaEntity in Input Adapter");
+    Integer cc = 0;
 
     try {
       System.out.print("Ingrese la cédula: ");
-      Integer cc = keyboard.nextInt();
+      cc = keyboard.nextInt();
       keyboard.nextLine(); // limpiar buffer
 
       Person persona = personInputPort.findOne(cc);
@@ -125,6 +127,8 @@ public class PersonaInputAdapterCli {
 
       personInputPort.edit(cc,persona);
       System.out.println("Persona actualizada exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error la persona con cedula " + cc + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error actualizando persona: " + e.getMessage());
     }
@@ -132,14 +136,17 @@ public class PersonaInputAdapterCli {
 
   public void deletePersona(Scanner keyboard) {
     log.info("Into deletePersona PersonaEntity in Input Adapter");
+    Integer cc = 0;
 
     try {
       System.out.print("Ingrese la cédula: ");
-      Integer cc = keyboard.nextInt();
+      cc = keyboard.nextInt();
       keyboard.nextLine(); // limpiar buffer
 
       personInputPort.drop(cc);
       System.out.println("Persona eliminada exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error la persona con cedula " + cc + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error eliminada persona: " + e.getMessage());
     }

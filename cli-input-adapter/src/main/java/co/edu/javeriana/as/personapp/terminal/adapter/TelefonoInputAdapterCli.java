@@ -5,11 +5,15 @@ import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import co.edu.javeriana.as.personapp.application.port.in.PersonInputPort;
 import co.edu.javeriana.as.personapp.application.port.in.PhoneInputPort;
+import co.edu.javeriana.as.personapp.application.port.out.PersonOutputPort;
 import co.edu.javeriana.as.personapp.application.port.out.PhoneOutputPort;
+import co.edu.javeriana.as.personapp.application.usecase.PersonUseCase;
 import co.edu.javeriana.as.personapp.application.usecase.PhoneUseCase;
 import co.edu.javeriana.as.personapp.common.annotations.Adapter;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
+import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.common.setup.DatabaseOption;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.domain.Phone;
@@ -29,15 +33,27 @@ public class TelefonoInputAdapterCli {
 	private PhoneOutputPort phoneOutputPortMongo;
 
 	@Autowired
+	@Qualifier("personOutputAdapterMaria")
+	private PersonOutputPort personOutputPortMaria;
+
+	@Autowired
+	@Qualifier("personOutputAdapterMongo")
+	private PersonOutputPort personOutputPortMongo;
+
+	@Autowired
 	private TelefonoMapperCli telefonoMapperCli;
+
+  private PersonInputPort personInputPort;
 
 	PhoneInputPort phoneInputPort;
 
 	public void setPhoneOutputPortInjection(String dbOption) throws InvalidOptionException {
 		if (dbOption.equalsIgnoreCase(DatabaseOption.MARIA.toString())) {
 			phoneInputPort = new PhoneUseCase(phoneOutputPortMaria);
+      personInputPort = new PersonUseCase(personOutputPortMaria);
 		} else if (dbOption.equalsIgnoreCase(DatabaseOption.MONGO.toString())) {
 			phoneInputPort = new PhoneUseCase(phoneOutputPortMongo);
+      personInputPort = new PersonUseCase(personOutputPortMongo);
 		} else {
 			throw new InvalidOptionException("Invalid database option: " + dbOption);
 		}
@@ -52,19 +68,24 @@ public class TelefonoInputAdapterCli {
 
   public void crearTelefono(Scanner keyboard) {
     log.info("Into crearTelefono TelefonoEntity in Input Adapter");
+
+    String number = "";
+    String company = "";
+    Integer ownerIdentification = 0;
+    Person owner = null;
+
     try {
       System.out.print("Ingrese el numero: ");
-      String number = keyboard.nextLine();
+      number = keyboard.nextLine();
 
       System.out.print("Ingrese la compania: ");
-      String company = keyboard.nextLine();
+      company = keyboard.nextLine();
 
       System.out.print("Ingrese la cedula del dueno: ");
-      Integer ownerIdentification = keyboard.nextInt();
+      ownerIdentification = keyboard.nextInt();
       keyboard.nextLine();
 
-      Person owner = new Person();
-      owner.updateIdentification(ownerIdentification);
+      owner = personInputPort.findOne(ownerIdentification);
 
       Phone phone = new Phone();
       phone.updateNumber(number);
@@ -73,6 +94,8 @@ public class TelefonoInputAdapterCli {
 
       phoneInputPort.create(phone);
       System.out.println("Telefono creado exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error el dueño con cedula" + ownerIdentification + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error creando telefono: " + e.getMessage());
     }
@@ -80,9 +103,10 @@ public class TelefonoInputAdapterCli {
 
   public void updateTelefono(Scanner keyboard) {
     log.info("Into updateTelefono TelefonoEntity in Input Adapter");
+    String number = "";
     try {
       System.out.print("Ingrese el numero actual: ");
-      String number = keyboard.nextLine();
+      number = keyboard.nextLine();
 
       Phone phone = phoneInputPort.findOne(number);
 
@@ -92,19 +116,13 @@ public class TelefonoInputAdapterCli {
       System.out.print("Ingrese la compania: ");
       String company = keyboard.nextLine();
 
-      System.out.print("Ingrese la cedula del dueno: ");
-      Integer ownerIdentification = keyboard.nextInt();
-      keyboard.nextLine();
-
-      Person owner = new Person();
-      owner.updateIdentification(ownerIdentification);
-
       phone.updateNumber(newNumber);
       phone.updateCompany(company);
-      phone.updateOwner(owner);
 
       phoneInputPort.edit(number, phone);
       System.out.println("Telefono actualizado exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error el telefono con numero " + number + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error actualizando telefono: " + e.getMessage());
     }
@@ -112,12 +130,15 @@ public class TelefonoInputAdapterCli {
 
   public void deleteTelefono(Scanner keyboard) {
     log.info("Into deleteTelefono TelefonoEntity in Input Adapter");
+    String number = "";
     try {
       System.out.print("Ingrese el numero: ");
-      String number = keyboard.nextLine();
+      number = keyboard.nextLine();
 
       phoneInputPort.drop(number);
       System.out.println("Telefono eliminado exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error el telefono con numero " + number + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error eliminando telefono: " + e.getMessage());
     }

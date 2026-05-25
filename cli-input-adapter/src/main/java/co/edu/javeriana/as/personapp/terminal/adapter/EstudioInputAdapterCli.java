@@ -61,6 +61,7 @@ public class EstudioInputAdapterCli {
   public void crearEstudio(Scanner keyboard) {
     log.info("Into crearEstudio EstudioEntity in Input Adapter");
     try {
+
       System.out.print("Ingrese la cedula de la persona: ");
       Integer personIdentification = keyboard.nextInt();
       keyboard.nextLine();

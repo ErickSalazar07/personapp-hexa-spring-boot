@@ -110,9 +110,12 @@ public class PersonaMenu {
 	}
 
 	private int leerOpcion(Scanner keyboard) {
+    int opc = 0;
 		try {
 			System.out.print("Ingrese una opción: ");
-			return keyboard.nextInt();
+      opc = keyboard.nextInt();
+      keyboard.nextLine();
+      return opc;
 		} catch (InputMismatchException e) {
 			log.warn("Solo se permiten números.");
       keyboard.nextLine();

@@ -94,9 +94,9 @@ public class ProfesionMenu {
 	private void mostrarMenuOpciones() {
 		System.out.println("----------------------");
 		System.out.println(OPCION_VER_TODO + " para ver todas las profesiones");
-		System.out.println(OPCION_CREAR_PROFESION + " para crear una profesiones");
-		System.out.println(OPCION_ACTUALIZAR_PROFESION + " para actualizar una profesiones");
-		System.out.println(OPCION_ELIMINAR_PROFESION + " para eliminar una profesiones");
+		System.out.println(OPCION_CREAR_PROFESION + " para crear una profesion");
+		System.out.println(OPCION_ACTUALIZAR_PROFESION + " para actualizar una profesion");
+		System.out.println(OPCION_ELIMINAR_PROFESION + " para eliminar una profesion");
 		// implementar otras opciones
 		System.out.println(OPCION_REGRESAR_MOTOR_PERSISTENCIA + " para regresar");
 	}
@@ -109,9 +109,12 @@ public class ProfesionMenu {
 	}
 
 	private int leerOpcion(Scanner keyboard) {
+    int opc = 0;
 		try {
 			System.out.print("Ingrese una opción: ");
-			return keyboard.nextInt();
+      opc = keyboard.nextInt();
+      keyboard.nextLine();
+			return opc;
 		} catch (InputMismatchException e) {
 			log.warn("Solo se permiten números.");
       keyboard.nextLine();

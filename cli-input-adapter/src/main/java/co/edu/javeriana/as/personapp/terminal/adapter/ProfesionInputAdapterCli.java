@@ -12,6 +12,7 @@ import co.edu.javeriana.as.personapp.application.port.out.ProfessionOutputPort;
 import co.edu.javeriana.as.personapp.application.usecase.ProfessionUseCase;
 import co.edu.javeriana.as.personapp.common.annotations.Adapter;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
+import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.common.setup.DatabaseOption;
 import co.edu.javeriana.as.personapp.domain.Profession;
 import co.edu.javeriana.as.personapp.terminal.mapper.ProfesionMapperCli;
@@ -82,24 +83,31 @@ public class ProfesionInputAdapterCli {
 
   public void updateProfesion(Scanner keyboard) {
     log.info("Into updateProfesion ProfesionEntity in Input Adapter");
+
+    Integer id = 0;
+    String name = "";
+    String description = "";
+
     try {
       System.out.print("Ingrese el id: ");
-      Integer id = keyboard.nextInt();
+      id = keyboard.nextInt();
       keyboard.nextLine();
 
       Profession profession = professionInputPort.findOne(id);
 
       System.out.print("Ingrese el nombre: ");
-      String name = keyboard.nextLine();
+      name = keyboard.nextLine();
 
       System.out.print("Ingrese la descripcion: ");
-      String description = keyboard.nextLine();
+      description = keyboard.nextLine();
 
       profession.updateName(name);
       profession.updateDescription(description);
 
       professionInputPort.edit(id, profession);
       System.out.println("Profesion actualizada exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error la profesion con id " + id + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error actualizando profesion: " + e.getMessage());
     }
@@ -107,13 +115,15 @@ public class ProfesionInputAdapterCli {
 
   public void deleteProfesion(Scanner keyboard) {
     log.info("Into deleteProfesion ProfesionEntity in Input Adapter");
+    Integer id = 0;
     try {
       System.out.print("Ingrese el id: ");
-      Integer id = keyboard.nextInt();
-      keyboard.nextLine();
+      id = keyboard.nextInt();
 
       professionInputPort.drop(id);
       System.out.println("Profesion eliminada exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error la profesion con id " + id + " no se encuentra");
     } catch (Exception e) {
       log.warn("Error eliminando profesion: " + e.getMessage());
     }

@@ -75,12 +75,12 @@ public class MenuPrincipal {
 
 			case MODULO_TELEFONO:
         telefonoMenu.iniciarMenu(telefonoInputAdapterCli, keyboard);
-				log.info("volvio de modulo profesion");
+				log.info("volvio de modulo telefono");
 			break;
 
 			case MODULO_ESTUDIO:
         estudioMenu.iniciarMenu(estudioInputAdapterCli, keyboard);
-				log.info("volvio de modulo profesion");
+				log.info("volvio de modulo estudio");
 			break;
 
 			default:
@@ -101,9 +101,12 @@ public class MenuPrincipal {
 	}
 
 	private int leerOpcion() {
+    int opc = 0;
 		try {
 			System.out.print("Ingrese una opción: ");
-			return keyboard.nextInt();
+      opc = keyboard.nextInt();
+      keyboard.nextLine();
+      return opc;
 		} catch (InputMismatchException e) {
 			log.warn("Solo se permiten números.");
 			return leerOpcion();
