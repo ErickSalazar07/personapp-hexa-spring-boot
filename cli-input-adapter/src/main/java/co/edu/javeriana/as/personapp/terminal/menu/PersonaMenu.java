@@ -15,6 +15,9 @@ public class PersonaMenu {
 
 	private static final int OPCION_REGRESAR_MOTOR_PERSISTENCIA = 0;
 	private static final int OPCION_VER_TODO = 1;
+  private static final int OPCION_CREAR_PERSONA = 2;
+  private static final int OPCION_ACTUALIZAR_PERSONA = 3;
+  private static final int OPCION_ELIMINAR_PERSONA = 4;
 	// mas opciones
 
 	public void iniciarMenu(PersonaInputAdapterCli personaInputAdapterCli, Scanner keyboard) {
@@ -51,12 +54,29 @@ public class PersonaMenu {
 				mostrarMenuOpciones();
 				int opcion = leerOpcion(keyboard);
 				switch (opcion) {
+
 				case OPCION_REGRESAR_MOTOR_PERSISTENCIA:
 					isValid = true;
-					break;
+				break;
+
 				case OPCION_VER_TODO:
 					personaInputAdapterCli.historial();					
-					break;
+				break;
+
+        case OPCION_CREAR_PERSONA:
+          personaInputAdapterCli.crearPersona(keyboard);
+        break;
+
+        case OPCION_ACTUALIZAR_PERSONA:
+          personaInputAdapterCli.historial();
+          personaInputAdapterCli.updatePersona(keyboard);
+        break;
+
+        case OPCION_ELIMINAR_PERSONA:
+          personaInputAdapterCli.historial();
+          personaInputAdapterCli.deletePersona(keyboard);
+        break;
+
 				// mas opciones
 				default:
 					log.warn("La opción elegida no es válida.");
@@ -70,6 +90,9 @@ public class PersonaMenu {
 	private void mostrarMenuOpciones() {
 		System.out.println("----------------------");
 		System.out.println(OPCION_VER_TODO + " para ver todas las personas");
+		System.out.println(OPCION_CREAR_PERSONA + " para crear una persona");
+		System.out.println(OPCION_ACTUALIZAR_PERSONA + " para actualizar una persona");
+		System.out.println(OPCION_ELIMINAR_PERSONA + " para eliminar una persona");
 		// implementar otras opciones
 		System.out.println(OPCION_REGRESAR_MOTOR_PERSISTENCIA + " para regresar");
 	}
@@ -87,6 +110,7 @@ public class PersonaMenu {
 			return keyboard.nextInt();
 		} catch (InputMismatchException e) {
 			log.warn("Solo se permiten números.");
+      keyboard.nextLine();
 			return leerOpcion(keyboard);
 		}
 	}

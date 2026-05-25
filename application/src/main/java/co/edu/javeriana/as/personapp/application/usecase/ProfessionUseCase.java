@@ -17,7 +17,7 @@ public class ProfessionUseCase implements ProfessionInputPort {
 
   private ProfessionOutputPort professionPersintence;
 
-  public ProfessionUseCase(@Qualifier("professionOutputAdapter") ProfessionOutputPort professionPersintence) {
+  public ProfessionUseCase(@Qualifier("professionOutputAdapterMaria") ProfessionOutputPort professionPersintence) {
     this.professionPersintence = professionPersintence;
   }
 
