@@ -8,11 +8,18 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import co.edu.javeriana.as.personapp.application.port.in.PersonInputPort;
+import co.edu.javeriana.as.personapp.application.port.in.ProfessionInputPort;
 import co.edu.javeriana.as.personapp.application.port.in.StudyInputPort;
+import co.edu.javeriana.as.personapp.application.port.out.PersonOutputPort;
+import co.edu.javeriana.as.personapp.application.port.out.ProfessionOutputPort;
 import co.edu.javeriana.as.personapp.application.port.out.StudyOutputPort;
+import co.edu.javeriana.as.personapp.application.usecase.PersonUseCase;
+import co.edu.javeriana.as.personapp.application.usecase.ProfessionUseCase;
 import co.edu.javeriana.as.personapp.application.usecase.StudyUseCase;
 import co.edu.javeriana.as.personapp.common.annotations.Adapter;
 import co.edu.javeriana.as.personapp.common.exceptions.InvalidOptionException;
+import co.edu.javeriana.as.personapp.common.exceptions.NoExistException;
 import co.edu.javeriana.as.personapp.common.setup.DatabaseOption;
 import co.edu.javeriana.as.personapp.domain.Person;
 import co.edu.javeriana.as.personapp.domain.Profession;
@@ -32,17 +39,39 @@ public class EstudioInputAdapterCli {
   @Autowired
   @Qualifier("studyOutputAdapterMongo")
   private StudyOutputPort studyOutputPortMongo;
+
+  @Autowired
+  @Qualifier("personOutputAdapterMaria")
+  private PersonOutputPort personOutputPortMaria;
+
+  @Autowired
+  @Qualifier("personOutputAdapterMongo")
+  private PersonOutputPort personOutputPortMongo;
+
+  @Autowired
+  @Qualifier("professionOutputAdapterMaria")
+  private ProfessionOutputPort professionOutputPortMaria;
+
+  @Autowired
+  @Qualifier("professionOutputAdapterMongo")
+  private ProfessionOutputPort professionOutputPortMongo;
   
   @Autowired
   private EstudioMapperCli estudioMapperCli;
 
   StudyInputPort studyInputPort;
+  PersonInputPort personInputPort;
+  ProfessionInputPort professionInputPort;
   
   public void setStudyOutputPortInjection(String dbOption) throws InvalidOptionException {
 		if (dbOption.equalsIgnoreCase(DatabaseOption.MARIA.toString())) {
 			studyInputPort = new StudyUseCase(studyOutputPortMaria);
+      personInputPort = new PersonUseCase(personOutputPortMaria);
+      professionInputPort = new ProfessionUseCase(professionOutputPortMaria);
 		} else if (dbOption.equalsIgnoreCase(DatabaseOption.MONGO.toString())) {
 			studyInputPort = new StudyUseCase(studyOutputPortMongo);
+      personInputPort = new PersonUseCase(personOutputPortMongo);
+      professionInputPort = new ProfessionUseCase(professionOutputPortMongo);
 		} else {
 			throw new InvalidOptionException("Invalid database option: " + dbOption);
 		}
@@ -60,27 +89,32 @@ public class EstudioInputAdapterCli {
   
   public void crearEstudio(Scanner keyboard) {
     log.info("Into crearEstudio EstudioEntity in Input Adapter");
+
+    Integer personIdentification = 0;
+    Integer professionIdentification = 0;
+    String graduationDateInput = "";
+    String universityName = "";
+    Person person = null;
+    Profession profession = null;
+
     try {
 
       System.out.print("Ingrese la cedula de la persona: ");
-      Integer personIdentification = keyboard.nextInt();
+      personIdentification = keyboard.nextInt();
       keyboard.nextLine();
 
       System.out.print("Ingrese el id de la profesion: ");
-      Integer professionIdentification = keyboard.nextInt();
+      professionIdentification = keyboard.nextInt();
       keyboard.nextLine();
 
       System.out.print("Ingrese la fecha de graduacion (YYYY-MM-DD): ");
-      String graduationDateInput = keyboard.nextLine();
+      graduationDateInput = keyboard.nextLine();
 
       System.out.print("Ingrese el nombre de la universidad: ");
-      String universityName = keyboard.nextLine();
+      universityName = keyboard.nextLine();
 
-      Person person = new Person();
-      person.updateIdentification(personIdentification);
-
-      Profession profession = new Profession();
-      profession.updateIdentification(professionIdentification);
+      person = personInputPort.findOne(personIdentification);
+      profession = professionInputPort.findOne(professionIdentification);
 
       Study study = new Study();
       study.updatePerson(person);
@@ -90,6 +124,8 @@ public class EstudioInputAdapterCli {
 
       studyInputPort.create(study);
       System.out.println("Estudio creado exitosamente.");
+    } catch (NoExistException e) {
+      log.warn("Error no existe: " + e.getMessage());
     } catch (Exception e) {
       log.warn("Error creando estudio: " + e.getMessage());
     }
